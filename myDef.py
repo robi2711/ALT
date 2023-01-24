@@ -5,6 +5,18 @@ def fw(name, write):
     file.close
 
 
+def f(ty, name, write):
+    if write == None:
+        write == ""
+    if ty[0] == "r":
+        file = open(name, f"{ty}")
+        return file.read()
+        file.close() 
+    else:
+        file = open(name, f"{ty}")
+        file.write(write)
+        file.close
+
 def fa(name, write):
     file = open(name, "a")
     file.write(write)

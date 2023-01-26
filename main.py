@@ -1,7 +1,8 @@
 # Pygame
+import threading
 import pygame
 pygame.init()
-
+    
 # Look
 size = (900, 500)
 screen = pygame.display.set_mode(size)
@@ -49,10 +50,8 @@ while running:
             w_pressed = True
             if on_bottom_boundary:
                 vy = -15
-                p1_rightpos = 2000
     else:
         w_pressed = False
-        p1_rightpos = player_one.right
     # S Controller
     if keys[pygame.K_s]:
         s_pressed = True
@@ -63,7 +62,7 @@ while running:
         if not right_pressed:
             right_pressed = True
             if on_left_boundary:
-                vx = 15
+                vx = 20
     else:
         right_pressed = False
     # Left Controller
@@ -71,7 +70,7 @@ while running:
         if not left_pressed:
             left_pressed = True
             if on_right_boundary:
-                vx = -15
+                vx = -20
     else:
         left_pressed = False
     # Jumping/Falling
@@ -107,15 +106,19 @@ while running:
     else:
         on_left_boundary = False
     # Kill Boxes
-    if player_two.right == p1_rightpos:
-        print("L")
-    print(p1_rightpos)
-    print(player_two.right)
+    if on_bottom_boundary:
+        p1_rightpos = player_one.right
+    else:
+        
+        p1_rightpos = 2000
+    if player_two.right - 5 == p1_rightpos:
+        print("Game Over!")
+#    print(p1_rightpos)
     # Final additions
-
     screen.blit(background_image, [0, 0])
     pygame.draw.rect(screen, (255, 0, 0), player_one)
     pygame.draw.rect(screen, (0, 0, 255), player_two)
     pygame.display.flip()
     clock.tick(fps)
 pygame.quit()
+

@@ -1,6 +1,28 @@
 # Pygame
-import threading
+import random
 import pygame
+
+singleplayer = False
+multiplayer = False
+simulation = False
+
+game_type = input("""What type of Game Mode would you like to play?
+-(1)Singleplayer
+-(2)Multiplayer
+-(3)Simulation
+Please select a number from 1 to 3 to play :)
+: """)
+
+if game_type == "1":
+    singleplayer = True
+elif game_type == "2":
+    multiplayer = True
+elif game_type == "3":
+    simulation = True
+else:
+    print(f"Sorry, {game_type} is not a valid input. Could you please restart the game and select a number from 1 to 3 :)")
+    exit("input error see line 13")
+
 pygame.init()
     
 # Look
@@ -19,6 +41,16 @@ player_one = pygame.Rect(size[0]/2 - 30, size[1] - 25, 50, 50)
 player_two = pygame.Rect(size[0] - 60, size[1]/1 - 100, 50, 50)
 gravity = 0.7
 p1_right_pos = player_one.right
+
+
+font = pygame.font.Font(None, 50)
+text = font.render("Game Over", True, (255, 255, 255))
+text_rect = text.get_rect()
+text_rect.center = (size[0] // 2, size[1] // 2 - 50)
+button_font = pygame.font.Font(None, 30)
+button_text = button_font.render("Restart", True, (255, 255, 255))
+button_rect = button_text.get_rect()
+button_rect.center = (size[0] // 2, size[1] // 2 + 50)
 # Y axis velocity (Player 1)
 vy = 0
 # X axos velocity (Player 2)
@@ -112,7 +144,22 @@ while running:
         
         p1_rightpos = 2000
     if player_two.right - 5 == p1_rightpos:
-        print("Game Over!")
+        # Main game loop
+        game_over = True
+        while game_over:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    game_over = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if button_rect.collidepoint(pygame.mouse.get_pos()):
+                        game_over = False
+            screen.fill((0, 0, 0))
+            screen.blit(text, text_rect)
+            pygame.draw.rect(screen, (255, 0, 0), button_rect)
+            screen.blit(button_text, button_rect)
+            pygame.display.update()
+
 #    print(p1_rightpos)
     # Final additions
     screen.blit(background_image, [0, 0])
@@ -121,4 +168,5 @@ while running:
     pygame.display.flip()
     clock.tick(fps)
 pygame.quit()
+
 

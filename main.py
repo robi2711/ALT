@@ -1,6 +1,8 @@
 # Pygame
 import random
 import pygame
+import time
+import threading
 
 singleplayer = False
 multiplayer = False
@@ -33,6 +35,7 @@ clock = pygame.time.Clock()
 background_image = pygame.image.load("background.png").convert()
 
 # Variables
+running = True
 w_pressed = False
 s_pressed = False
 left_pressed = False
@@ -42,7 +45,15 @@ player_two = pygame.Rect(size[0] - 60, size[1]/1 - 100, 50, 50)
 gravity = 0.7
 p1_right_pos = player_one.right
 
-
+def generate_random_number():
+    while running:
+        random_number = random.randint(0, 1)
+        print(random_number)
+        time.sleep(2)
+if singleplayer:
+        if __name__ == '__main__':
+            t = threading.Thread(target=generate_random_number)
+            t.start()
 font = pygame.font.Font(None, 50)
 text = font.render("Game Over", True, (255, 255, 255))
 text_rect = text.get_rect()
@@ -68,7 +79,6 @@ on_left_boundary = False
 on_right_boundary = True
 
 # Main
-running = True
 while running:
     # Events
     for event in pygame.event.get():
@@ -76,35 +86,67 @@ while running:
             running = False
     keys = pygame.key.get_pressed()
 
-    # W controller
-    if keys[pygame.K_w]:
-        if not w_pressed:
-            w_pressed = True
-            if on_bottom_boundary:
-                vy = -15
-    else:
-        w_pressed = False
-    # S Controller
-    if keys[pygame.K_s]:
-        s_pressed = True
-    else:
-        s_pressed = False
-    # Right Controller
-    if keys[pygame.K_RIGHT]:
-        if not right_pressed:
-            right_pressed = True
-            if on_left_boundary:
-                vx = 20
-    else:
-        right_pressed = False
-    # Left Controller
-    if keys[pygame.K_LEFT]:
-        if not left_pressed:
-            left_pressed = True
-            if on_right_boundary:
-                vx = -20
-    else:
-        left_pressed = False
+    if multiplayer:
+        # W controller
+        if keys[pygame.K_w]:
+            if not w_pressed:
+                w_pressed = True
+                if on_bottom_boundary:
+                    vy = -15
+        else:
+            w_pressed = False
+        # S Controller
+        if keys[pygame.K_s]:
+            s_pressed = True
+        else:
+            s_pressed = False
+        # Right Controller
+        if keys[pygame.K_RIGHT]:
+            if not right_pressed:
+                right_pressed = True
+                if on_left_boundary:
+                    vx = 20
+        else:
+            right_pressed = False
+        # Left Controller
+        if keys[pygame.K_LEFT]:
+            if not left_pressed:
+                left_pressed = True
+                if on_right_boundary:
+                    vx = -20
+        else:
+            left_pressed = False
+    if singleplayer:
+        # W controller
+        if keys[pygame.K_w]:
+            if not w_pressed:
+                w_pressed = True
+                if on_bottom_boundary:
+                    vy = -15
+        else:
+            w_pressed = False
+        # S Controller
+        if keys[pygame.K_s]:
+            s_pressed = True
+        else:
+            s_pressed = False
+        # Right Controller
+
+        if random_number:
+            if not right_pressed:
+                right_pressed = True
+                if on_left_boundary:
+                    vx = 20
+        else:
+            right_pressed = False
+        # Left Controller
+        if keys[pygame.K_LEFT]:
+            if not left_pressed:
+                left_pressed = True
+                if on_right_boundary:
+                    vx = -20
+        else:
+            left_pressed = False
     # Jumping/Falling
     if s_pressed:
         vy += gravity * 4
@@ -168,5 +210,6 @@ while running:
     pygame.display.flip()
     clock.tick(fps)
 pygame.quit()
+
 
 

@@ -2,7 +2,7 @@
 import random
 import pygame
 import time
-import threading
+
 
 singleplayer = False
 multiplayer = False
@@ -45,15 +45,6 @@ player_two = pygame.Rect(size[0] - 60, size[1]/1 - 100, 50, 50)
 gravity = 0.7
 p1_right_pos = player_one.right
 
-def generate_random_number():
-    while running:
-        random_number = random.randint(0, 1)
-        print(random_number)
-        time.sleep(2)
-if singleplayer:
-        if __name__ == '__main__':
-            t = threading.Thread(target=generate_random_number)
-            t.start()
 font = pygame.font.Font(None, 50)
 text = font.render("Game Over", True, (255, 255, 255))
 text_rect = text.get_rect()
@@ -77,10 +68,13 @@ left_boundary = 25
 right_boundary = size[0] - 25
 on_left_boundary = False
 on_right_boundary = True
-
+clock = pygame.time.Clock()
+etime = 0
 # Main
 while running:
     # Events
+    etime += clock.get_time() / 1000
+    print(etime)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -131,8 +125,8 @@ while running:
         else:
             s_pressed = False
         # Right Controller
-
-        if random_number:
+        random_number = random.randint(0,1)
+        if random_number == 1:
             if not right_pressed:
                 right_pressed = True
                 if on_left_boundary:
@@ -140,7 +134,7 @@ while running:
         else:
             right_pressed = False
         # Left Controller
-        if keys[pygame.K_LEFT]:
+        if random_number == 1:
             if not left_pressed:
                 left_pressed = True
                 if on_right_boundary:
@@ -210,6 +204,7 @@ while running:
     pygame.display.flip()
     clock.tick(fps)
 pygame.quit()
+
 
 
 

@@ -74,6 +74,7 @@ etime = 0
 while running:
     # Events
     etime += clock.get_time() / 1000
+    round(etime, 1)
     print(etime)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -141,6 +142,37 @@ while running:
                     vx = -20
         else:
             left_pressed = False
+    if simulation:
+        # W controller
+        random_number = random.randint(0,2)
+        if random_number == 2:
+            if not w_pressed:
+                w_pressed = True
+                if on_bottom_boundary:
+                    vy = -15
+        else:
+            w_pressed = False
+        # S Controller
+        if keys[pygame.K_s]:
+            s_pressed = True
+        else:
+            s_pressed = False
+        # Right Controller
+        if random_number == 1:
+            if not right_pressed:
+                right_pressed = True
+                if on_left_boundary:
+                    vx = 20
+        else:
+            right_pressed = False
+        # Left Controller
+        if random_number == 1:
+            if not left_pressed:
+                left_pressed = True
+                if on_right_boundary:
+                    vx = -20
+        else:
+            left_pressed = False
     # Jumping/Falling
     if s_pressed:
         vy += gravity * 4
@@ -180,7 +212,6 @@ while running:
         
         p1_rightpos = 2000
     if player_two.right - 5 == p1_rightpos:
-        # Main game loop
         game_over = True
         while game_over:
             for event in pygame.event.get():
@@ -204,7 +235,5 @@ while running:
     pygame.display.flip()
     clock.tick(fps)
 pygame.quit()
-
-
 
 

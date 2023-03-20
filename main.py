@@ -22,6 +22,16 @@ def fr(name):
     return file.read()
     file.close
 
+def mean(name):
+    ##Gets mean
+    total = 0
+    counter = 0
+    while counter != len(name):
+        total += int(name[counter])
+        counter += 1
+    mean = total/counter
+    counter = 0
+    return mean
 # Variables
 main_run = False
 w_pressed = False
@@ -33,6 +43,12 @@ multiplayer = False
 simulation = False
 start_menu = True
 
+while True:
+    try:
+        dvx = int(input("Pick a number that changes the speed of player two (20 is reccomended): "))
+        break
+    except:
+        print("That's not a valid option!")
 # Look
 pygame.init()
 pygame.display.set_caption("Q-Bits")
@@ -63,7 +79,7 @@ right_boundary = size[0] - 25
 on_left_boundary = False
 on_right_boundary = True
 clock = pygame.time.Clock()
-etime = 0
+
 
 # Endgame screen Variables
 font = pygame.font.Font(None, 60)
@@ -152,6 +168,12 @@ while start_menu:
                 ax3.plot(u_values)
                 ax3.set_title('Simulation Time')
                 plt.show()
+                s_mean = mean(s_values)
+                print(f"The mean time for singleplayer is {round(s_mean, 1)} seconds")
+                m_mean = mean(m_values)
+                print(f"The mean time for multiplayer is {round(m_mean, 1)} seconds")
+                u_mean = mean(u_values)
+                print(f"The mean time for simulation is {round(u_mean, 1)} seconds")
     screen.fill((0, 0, 0))
     screen.blit(start_text, start_text_rect)
     pygame.draw.rect(screen, (0, 0, 0), singleplayer_button)
@@ -199,7 +221,7 @@ while start_menu:
                 if not right_pressed:
                     right_pressed = True
                     if on_left_boundary:
-                        vx = 20
+                        vx = dvx
             else:
                 right_pressed = False
             # Left Controller
@@ -207,7 +229,7 @@ while start_menu:
                 if not left_pressed:
                     left_pressed = True
                     if on_right_boundary:
-                        vx = -20
+                        vx = -dvx
             else:
                 left_pressed = False
     # Singleplayer
@@ -231,7 +253,7 @@ while start_menu:
                 if not right_pressed:
                     right_pressed = True
                     if on_left_boundary:
-                        vx = 20
+                        vx = dvx
             else:
                 right_pressed = False
             # Left Controller
@@ -239,7 +261,7 @@ while start_menu:
                 if not left_pressed:
                     left_pressed = True
                     if on_right_boundary:
-                        vx = -20
+                        vx = -dvx
             else:
                 left_pressed = False
             if s_pressed:
@@ -267,7 +289,7 @@ while start_menu:
                 if not right_pressed:
                     right_pressed = True
                     if on_left_boundary:
-                        vx = 20
+                        vx = dvx
             else:
                 right_pressed = False
             # Left Controller
@@ -275,7 +297,7 @@ while start_menu:
                 if not left_pressed:
                     left_pressed = True
                     if on_right_boundary:
-                        vx = -20
+                        vx = -dvx
             else:
                 left_pressed = False
             vy += gravity

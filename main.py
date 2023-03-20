@@ -136,18 +136,21 @@ while start_menu:
                 del dataIn[-1]
                 for i in dataIn:
                     if i[0] == 's':
-                        s_values.append(i[1:])
+                        s_values.append(int(i[1:]))
                     elif i[0] == 'm':
-                        m_values.append(i[1:])
+                        m_values.append(int(i[1:]))
                     elif i[0] == 'u':
-                        u_values.append(i[1:])
+                        u_values.append(int(i[1:]))
+                s_values.sort()
+                m_values.sort()
+                u_values.sort()
                 fig, (ax1, ax2, ax3) = plt.subplots(3, 1)
                 ax1.plot(s_values)
-                ax1.set_title('S Values')
+                ax1.set_title('Singleplayer Time')
                 ax2.plot(m_values)
-                ax2.set_title('M Values')
+                ax2.set_title('Multiplayer Time')
                 ax3.plot(u_values)
-                ax3.set_title('U Values')
+                ax3.set_title('Simulation Time')
                 plt.show()
     screen.fill((0, 0, 0))
     screen.blit(start_text, start_text_rect)
@@ -347,5 +350,3 @@ while start_menu:
         pygame.display.flip()
         clock.tick(fps)
 pygame.quit()
-
-

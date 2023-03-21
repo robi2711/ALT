@@ -42,20 +42,27 @@ singleplayer = False
 multiplayer = False
 simulation = False
 start_menu = True
-
+sfile = "scores.csv"
 clear = input("Would you like to clear the data? ((y/n) NOTE! only do this if you are sure as it is not reversable!): ")
 if clear == "y":
-    fw(scores, "")
+    fw(sfile, "")
 elif clear == "n":
     print("Ok")
 else:
     print("Invalid input, taking youre answer as a no :)")
-while True:
-    try:
-        dvx = int(input("Pick a number that changes the speed of player two (20 is reccomended): "))
-        break
-    except:
-        print("That's not a valid option!")
+def speed():
+    while True:
+        while True:
+            try:
+                dvx = int(input("Pick a number that changes the speed of player two ((1-50)20 is reccomended): "))
+                break
+            except:
+                print("That's not a valid option!")
+        if 0 <= dvx <= 50:
+                return dvx
+        else:
+            print("please pick between 1 and 50")
+dvx = speed()
 # Look
 pygame.init()
 pygame.display.set_caption("Q-Bits")
@@ -119,7 +126,7 @@ multiplayer_text = start_font.render("Multiplayer", True, (255, 255, 255))
 simulation_text = start_font.render("Simulation", True, (255, 255, 255))
 
 # Score System
-sfile = "scores.csv"
+
 #fw(sfile, "")
 score = 0
 start_time = time.time()
@@ -344,6 +351,7 @@ while start_menu:
             p1_rightpos = 2000
         if player_two.right - 5 == p1_rightpos:
             game_over = True
+            start_time = time.time()
             if singleplayer:
                 fa(sfile, f"s{score}, ")
             if multiplayer:
@@ -371,7 +379,6 @@ while start_menu:
                 screen.blit(restart_text, restart_button)
                 screen.blit(exit_text, exit_button)
                 pygame.display.update()
-
         screen.blit(background_image, [0, 0])
         pygame.draw.rect(screen, (255, 0, 0), player_one)
         pygame.draw.rect(screen, (0, 0, 255), player_two)

@@ -43,6 +43,13 @@ multiplayer = False
 simulation = False
 start_menu = True
 
+clear = input("Would you like to clear the data? ((y/n) NOTE! only do this if you are sure as it is not reversable!): ")
+if clear == "y":
+    fw(scores, "")
+elif clear == "n":
+    print("Ok")
+else:
+    print("Invalid input, taking youre answer as a no :)")
 while True:
     try:
         dvx = int(input("Pick a number that changes the speed of player two (20 is reccomended): "))
